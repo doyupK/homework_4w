@@ -39,7 +39,7 @@ public class PostController {
         return id;
     }
 
-    @GetMapping("/api/posts/check")
+    @GetMapping("/api/posts/{id}/check")
     public String dbGetPassword(@RequestParam Long id) {
         return postService.getPasswordService(id);
     }

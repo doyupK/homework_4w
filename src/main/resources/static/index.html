@@ -19,14 +19,9 @@
             margin-bottom: 10px;
         }
 
-        @import url(//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSans-kr.css);
 
         body {
             margin: 0;
-        }
-
-        .area-edit {
-            display: none;
         }
 
         .wrap {
@@ -55,7 +50,7 @@
         .background-header {
             position: fixed;
             z-index: -1;
-            top: 0px;
+            top: 0;
             width: 100%;
             height: 100%;
             background-image: linear-gradient(0deg, rgba(0, 60, 0, 0.7), rgba(0, 0, 0, 0.5)), url('./images/banner.jpg');
@@ -155,14 +150,6 @@
         }
 
         .card {
-            width: 538px;
-            border-radius: 5px;
-            background-color: #ffffff;
-            margin-bottom: 12px;
-        }
-
-        .contents_card {
-            /*display: none;*/
             width: 538px;
             border-radius: 5px;
             background-color: #ffffff;
@@ -445,7 +432,7 @@
             let password_input = $(`#${id}-editPassword`).val();
             $.ajax({
                 type: 'GET',
-                url: '/api/posts/check',
+                url: `/api/posts/${id}/check`,
                 contentType: "application/json",
                 data: {id},
                 success: function (response) {
@@ -483,7 +470,7 @@
             let password_input = $(`#${id}-editPassword`).val();
             $.ajax({
                 type: 'GET',
-                url: '/api/posts/check',
+                url: `/api/posts/${id}/check`,
                 contentType: "application/json",
                 data: {id},
                 success: function (response) {
