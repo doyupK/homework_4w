@@ -35,3 +35,7 @@ out/
 
 ### VS Code ###
 .vscode/
+
+
+### MYSQL DB ###
+src/main/resources/application.properties
