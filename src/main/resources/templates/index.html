@@ -15,9 +15,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
 
     <style>
-        .form-control {
-            margin-bottom: 10px;
-        }
+
 
 
         body {
@@ -27,15 +25,6 @@
         .wrap {
             width: 538px;
             margin: 10px auto;
-        }
-
-        #contents {
-            width: 538px;
-        }
-
-        .area-write {
-            position: relative;
-            width: 538px;
         }
 
         .area-write img {
@@ -211,11 +200,6 @@
             margin-bottom: 10px;
         }
 
-        .footer {
-            position: relative;
-            height: 40px;
-        }
-
         .footer img.icon-start-edit {
             cursor: pointer;
             position: absolute;
@@ -264,12 +248,7 @@
     <script>
         $(document).ready(function () {
             $('#cards-box').empty();
-            // var httpRequest = new XMLHttpRequest();
-            // httpRequest.onreadystatechange = function() {
-            //     if (httpRequest.readyState === XMLHttpRequest.DONE && httpRequest.status === 200) {
-            //          console.log(httpRequest.getAllResponseHeaders());
-            //     }
-            // };
+
             if ($.cookie('token')) {
                 $('#write_button').show();
                 $.ajaxSetup({
@@ -284,10 +263,6 @@
                 url: `/user/userinfo`,
                 contentType: "application/json",
                 success: function (response) {
-                    // console.log(response.getAllResponseHeaders());
-                    console.log(response.headers.get("Login_Status"));
-                    // console.log($.header(response.getResponseHeader("Login_Status")));
-
                     const username = response.username;
                     $('#username').text(username);
                 },
