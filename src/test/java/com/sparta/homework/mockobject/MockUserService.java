@@ -1,10 +1,7 @@
-package com.sparta.homework.service;
+package com.sparta.homework.mockobject;
 
 import com.sparta.homework.Dto.SignupRequestDto;
 import com.sparta.homework.domain.User;
-import com.sparta.homework.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -12,14 +9,11 @@ import java.util.Optional;
 import java.util.regex.Pattern;
 
 @Service
-public class UserService {
-    private final PasswordEncoder passwordEncoder;
-    private final UserRepository userRepository;
+public class MockUserService {
+    private final MockUserRepository mockUserRepository;
 
-    @Autowired
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
-        this.passwordEncoder = passwordEncoder;
-        this.userRepository = userRepository;
+    public MockUserService() {
+        this.mockUserRepository = new MockUserRepository();
     }
 
     public ModelAndView registerUser(SignupRequestDto requestDto) throws IllegalArgumentException{
@@ -35,32 +29,33 @@ public class UserService {
             mav.setViewName("signup");
             return mav;
         }
-         if(!Pattern.matches("^[a-zA-Z\\d]*$",username) || username.length()<=3){
+        if(!Pattern.matches("^[a-zA-Z\\d]*$",username) || username.length()<=3){
             mav.addObject("message","닉네임에 불가한 문자나, 최소 3자 이상이어야 합니다.");
             mav.setViewName("signup");
             return mav;
         }
-         if(requestDto.getPassword().length()<=4 || requestDto.getPassword().contains(username)){
+        if(requestDto.getPassword().length()<=4 || requestDto.getPassword().contains(username)){
             mav.addObject("message","비밀번호에 닉네임이 포함되었거나, 최소 4자 이상이어야 합니다.");
             mav.setViewName("signup");
             return mav;
         }
         else{
-            Optional<User> found = userRepository.findByUsername(username);
+            Optional<User> found = MockUserRepository.findByUsername(username);
             if (found.isPresent()) {
                 mav.addObject("message", "중복된 사용자 ID입니다.");
                 mav.setViewName("signup");
                 return mav;
 
             }
-            String password = passwordEncoder.encode(requestDto.getPassword());
-            User user = new User(username, password);
-            userRepository.save(user);
+//            String password = passwordEncoder.encode(requestDto.getPassword());
+            User user = new User(username, requestDto.getPassword());
+            mockUserRepository.save(user);
             mav.setViewName("login");
         }
-
         return mav;
     }
+
+
 
 
 }

@@ -261,11 +261,17 @@
             display: none;
         }
     </style>
-
     <script>
         $(document).ready(function () {
-
+            $('#cards-box').empty();
+            // var httpRequest = new XMLHttpRequest();
+            // httpRequest.onreadystatechange = function() {
+            //     if (httpRequest.readyState === XMLHttpRequest.DONE && httpRequest.status === 200) {
+            //          console.log(httpRequest.getAllResponseHeaders());
+            //     }
+            // };
             if ($.cookie('token')) {
+                $('#write_button').show();
                 $.ajaxSetup({
                     headers: {
                         'Authorization': $.cookie('token')
@@ -278,42 +284,49 @@
                 url: `/user/userinfo`,
                 contentType: "application/json",
                 success: function (response) {
-                    const username = response.username;
+                    // console.log(response.getAllResponseHeaders());
+                    console.log(response.headers.get("Login_Status"));
+                    // console.log($.header(response.getResponseHeader("Login_Status")));
 
+                    const username = response.username;
                     $('#username').text(username);
+                },
+                error:function (){
+                    $('#write_button').hide();
                 }
             })
             getMessages();
 
+
         })
 
         function getMessages() {
-            $('#cards-box').empty();
+
             $.ajax({
                 type: 'GET',
                 url: '/api/posts',
                 success: function (response) {
-                    for (let i = 0; i < response.length; i++) {
+                    console.log(response.length)
+                    for (let i = response.length - 1; i >= 0; i--) {
                         let message = response[i];
                         let id = message['id'];
                         let title = message['title'];
                         let username = message['username'];
                         let contents = message['contents'];
-                        let modifiedAt = message['modifiedAt'];
-                        addHTML(id, title, username, contents, modifiedAt);
+                        addHTML(id, title, username, contents);
                     }
                 }
             })
         }
 
         // 메모 하나를 HTML로 만들어서 body 태그 내 원하는 곳에 붙입니다.
-        function addHTML(id, title, username, contents, modifiedAt) {
+        function addHTML(id, title, username, contents) {
             // 1. HTML 태그를 만듭니다.
             let tempHtml = `<div class="card">
                                 <!-- date/username 영역 -->
                                 <div class="metadata" onclick="detail(${id})">
                                     <div class="date">
-                                        ${modifiedAt}
+                                        ${id}
                                     </div>
                                     <div id="${id}-username" class="username">
                                         ${username}
@@ -340,34 +353,17 @@
             $('#cards-box').append(tempHtml);
         }
 
-        function detail(id) {
-            let postId = Number(id)
-            location.href = `/api/detail/${postId}`
-            // $.ajax({
-            //     type: "POST",
-            //     url: "/api/posts",
-            //     contentType: "application/json", // JSON 형식으로 전달함을 알리기
-            //     data: JSON.stringify(data),
-            //     success: function (response) {
-            //         if(response !==null){
-            //             alert('메시지가 성공적으로 작성되었습니다.');
-            //             window.location.reload();
-            //         }
-            //         else{
-            //             alert("로그인이 필요한 서비스입니다.");
-            //             window.location.href="/user/loginView";
-            //         }
-            //     },
-            //
-            //
-            // });
+        function home() {
+
+            window.location.href = "/";
         }
 
-
-
+        function detail(id) {
+            let postId = Number(id)
+            location.href = `/api/detail/${postId}`;
+        }
 
     </script>
-    <!--        // 사용자가 내용을 올바르게 입력하였는지 확인합니다.-->
 </head>
 
 <body>
@@ -379,46 +375,18 @@
 </div>
 <div class="wrap">
     <div class="header">
-        <h2>Java, Spring Boot</h2>
+        <h2 onclick="home()">Java, Spring Boot</h2>
         <p>
             본인이 어려웠던 점, 궁금했던 점,<br>
             특별한 예외 처리 경험을 공유해주세요
         </p>
         <p id="username">방문자</p>
+
         <a href="/user/loginView" style="color: white">로그인</a>
         <a href="/user/logout" style="color: white">로그아웃</a>
-        <a href='/api/write' style="color: white">글 쓰기</a>
+        <a href='/write' style="color: white" id="write_button">글 쓰기</a>
         <div id="cards-box" class="area-read">
-            <div class="card">
-                <!-- date/username 영역 -->
-                <div class="metadata">
-                    <div class="date">
-                        October 10, 2020
-                    </div>
-                    <div id="1-username" class="username">
-                        anonymous
-                    </div>
-                </div>
-                <!-- contents 조회/수정 영역-->
-                <div class="contents">
-                    <div id="1-contents" class="text">
-                        dsafnkalfklewakflekelafkleajfkleafkldsankflenwaklfnekwlafneklwanfkelawnfkelanfkleanfklew
-                    </div>
-                    <div id="1-editarea" class="edit">
-                        <textarea id="1-textarea" class="te-edit" name="" cols="30" rows="5"></textarea>
-                    </div>
-                </div>
-                <!-- 버튼 영역-->
-                <div class="footer">
 
-                    <img id="1-edit" onclick="editPost('1')" class="icon-start-edit" src="../static/images/edit.png"
-                         alt="">
-                    <img id="1-delete" onclick="deleteOne('1')" class="icon-delete" src="/images/delete.png"
-                         alt="">
-                    <img id="1-submit" onclick="submitEdit('1')" class="icon-end-edit" src="/images/done.png"
-                         alt="">
-                </div>
-            </div>
         </div>
     </div>
 </div>

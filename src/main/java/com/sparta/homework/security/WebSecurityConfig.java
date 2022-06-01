@@ -82,12 +82,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 // [로그아웃 기능]
                 .logout()
                 // 로그아웃 요청 처리 URL
-                .logoutUrl("/user/logout").deleteCookies("token")
-                .permitAll()
+                    .logoutUrl("/user/logout").deleteCookies("token").logoutSuccessUrl("/")
                 .and()
                 .exceptionHandling()
                 // "접근 불가" 페이지 URL 설정
-                .accessDeniedPage("/forbidden.html");
+                .accessDeniedPage("/");
 
 
     }
@@ -126,8 +125,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         skipPathList.add("GET,/user/**");
         skipPathList.add("POST,/user/signup");
 
+
         skipPathList.add("GET,/");
         skipPathList.add("GET,/api/**");
+        skipPathList.add("GET,/write");
 
 
         FilterSkipMatcher matcher = new FilterSkipMatcher(skipPathList,"/**");

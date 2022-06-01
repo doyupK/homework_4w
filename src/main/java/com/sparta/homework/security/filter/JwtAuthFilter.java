@@ -2,6 +2,7 @@ package com.sparta.homework.security.filter;
 
 import com.sparta.homework.security.jwt.HeaderTokenExtractor;
 import com.sparta.homework.security.jwt.JwtPreProcessingToken;
+import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContext;
@@ -38,8 +39,10 @@ public class JwtAuthFilter extends AbstractAuthenticationProcessingFilter {
         // JWT 값을 담아주는 변수 TokenPayload
         String tokenPayload = request.getHeader("Authorization");
         if (tokenPayload == null) {
-            response.sendRedirect("/user/loginView");
-            return null;
+            throw new AuthenticationServiceException("no login");
+//            response.addHeader("Login_Status","no login");
+//            response.sendRedirect("/");
+
         }
         JwtPreProcessingToken jwtToken = new JwtPreProcessingToken(extractor.extract(tokenPayload, request));
         return super

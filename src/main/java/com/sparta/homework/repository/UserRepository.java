@@ -1,6 +1,6 @@
 package com.sparta.homework.repository;
 
-import com.sparta.homework.model.User;
+import com.sparta.homework.domain.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

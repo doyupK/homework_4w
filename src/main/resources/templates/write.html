@@ -15,11 +15,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
 
     <style>
-        .form-control {
-            margin-bottom: 10px;
-        }
-
-
         body {
             margin: 0;
         }
@@ -149,13 +144,6 @@
             color: #868e96;
         }
 
-        .card {
-            width: 538px;
-            border-radius: 5px;
-            background-color: #ffffff;
-            margin-bottom: 12px;
-        }
-
 
         .card .metadata {
             position: relative;
@@ -173,9 +161,6 @@
             padding: 10px 23px;
         }
 
-        .card .metadata .date {
-
-        }
 
         .card .metadata .username {
             margin-left: 20px;
@@ -190,11 +175,6 @@
             color: black;
         }
 
-        .contents {
-            padding: 10px 23px;
-            word-wrap: break-word;
-            word-break: break-all;
-        }
 
         .contents div.edit {
             display: none;
@@ -209,11 +189,6 @@
             width: 100%;
             font-family: 'Spoqa Han Sans', serif;
             margin-bottom: 10px;
-        }
-
-        .footer {
-            position: relative;
-            height: 40px;
         }
 
         .footer img.icon-start-edit {
@@ -253,13 +228,6 @@
             height: 20px;
         }
 
-        #cards-box {
-            margin-top: 12px;
-        }
-
-        .post_body {
-            display: none;
-        }
     </style>
     <script>
         $(document).ready(function () {
@@ -319,7 +287,7 @@
                 contentType: "application/json", // JSON 형식으로 전달함을 알리기
                 data: JSON.stringify(data),
                 success: function (response) {
-                    if(response !==null){
+                    if(response !== null){
                         alert('메시지가 성공적으로 작성되었습니다.');
                         window.location.href="/";
                     }
@@ -328,10 +296,11 @@
                         window.location.href="/user/loginView";
                     }
                 },
-
-
             });
+        }
 
+        function home(){
+            window.location.href="/";
         }
 
 
@@ -350,7 +319,7 @@
 </div>
 <div class="wrap">
     <div class="header">
-        <h2>Java, Spring Boot</h2>
+        <h2 onclick="home()">Java, Spring Boot</h2>
         <p>
             본인이 어려웠던 점, 궁금했던 점,<br>
             특별한 예외 처리 경험을 공유해주세요

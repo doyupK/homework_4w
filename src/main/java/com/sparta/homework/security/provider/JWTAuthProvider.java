@@ -1,6 +1,6 @@
 package com.sparta.homework.security.provider;
 
-import com.sparta.homework.model.User;
+import com.sparta.homework.domain.User;
 import com.sparta.homework.repository.UserRepository;
 import com.sparta.homework.security.UserDetailsImpl;
 import com.sparta.homework.security.jwt.JwtDecoder;
@@ -31,7 +31,7 @@ public class JWTAuthProvider implements AuthenticationProvider {
         //  ex) UserDetailsImpl 에 userId, username, role 만 저장
         //    -> JWT 에 userId, username, role 정보를 암호화/복호화하여 사용
         User user = userRepository.findByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException("Can't find " + username));;
+                .orElseThrow(() -> new UsernameNotFoundException("Can't find " + username));
         UserDetailsImpl userDetails = new UserDetailsImpl(user);
         return new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
     }

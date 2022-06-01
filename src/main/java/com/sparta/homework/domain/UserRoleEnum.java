@@ -1,4 +1,4 @@
-package com.sparta.homework.model;
+package com.sparta.homework.domain;
 
 public enum UserRoleEnum {
     USER,  // 사용자 권한

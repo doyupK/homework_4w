@@ -1,21 +1,22 @@
 package com.sparta.homework.controller;
 
 import com.sparta.homework.Dto.PostRequestDto;
-import com.sparta.homework.model.Post;
+import com.sparta.homework.domain.Post;
 import com.sparta.homework.repository.PostRepository;
 import com.sparta.homework.security.UserDetailsImpl;
 import com.sparta.homework.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
+import java.util.Objects;
 
 @RequiredArgsConstructor
-
 @Controller
 public class PostController {
 
@@ -55,7 +56,13 @@ public class PostController {
 
     @DeleteMapping("/api/posts/{id}")
     @ResponseBody
-    public Long deleteMemo(@PathVariable Long id) {
+    public Long deleteMemo(@PathVariable Long id, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        Post post = postRepository.findById(id).orElseThrow(
+                () -> new NullPointerException("게시글이 존재하지 않습니다.")
+        );
+        if(!Objects.equals(post.getUsername(), userDetails.getUsername())){
+            throw new IllegalArgumentException("작성자 정보와 틀립니다..");
+        }
         postRepository.deleteById(id);
         return id;
     }
@@ -64,10 +71,11 @@ public class PostController {
 
     @GetMapping("/api/detail/{id}")
     public String detailPost(Model model, @PathVariable Long id) {
-        System.out.println(id);
+
         Post post = postRepository.findById(id).orElseThrow(
                 () -> new NullPointerException("게시글이 존재 하지 않습니다.")
         );
+
         model.addAttribute("post", post);
         return "detail";
     }
@@ -76,5 +84,22 @@ public class PostController {
         return "write";
     }
 
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    @ResponseBody
+    public ResponseEntity<String> handleNoSuchElementFoundException(IllegalArgumentException exception) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(exception.getMessage());
+    }
+
+    @GetMapping("/check/{id}")
+    @ResponseBody
+    public String check(@PathVariable Long id, @AuthenticationPrincipal UserDetailsImpl userDetails){
+
+        if(userDetails == null){
+            throw new IllegalArgumentException("로그인 정보가 없습니다.");
+        }
+
+        return null;
+    }
 
 }
