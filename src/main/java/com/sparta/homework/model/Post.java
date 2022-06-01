@@ -1,6 +1,7 @@
-package com.sparta.homework.domain;
+package com.sparta.homework.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.sparta.homework.Dto.PostRequestDto;
+import com.sparta.homework.domain.Timestamped;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -11,7 +12,7 @@ import javax.persistence.*;
 @Getter
 @Entity // 테이블과 연계됨을 스프링에게 알려줍니다.
 public class Post extends Timestamped { // 생성,수정 시간을 자동으로 만들어줍니다.
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     private Long id;
 
@@ -24,26 +25,22 @@ public class Post extends Timestamped { // 생성,수정 시간을 자동으로 
     @Column(nullable = false)
     private String contents;
 
-    @Column(nullable = false)
-    @JsonIgnore
-    private String password;
 
-    public Post(String title, String username, String contents, String password) {
+    public Post(String title, String username, String contents) {
         this.title = title;
         this.username = username;
         this.contents = contents;
-        this.password = password;
     }
 
     public Post(PostRequestDto requestDto) {
-        this.title = requestDto.getTitle();
         this.username = requestDto.getUsername();
+        this.title = requestDto.getTitle();
         this.contents = requestDto.getContents();
-        this.password = requestDto.getPassword();
     }
 
     public void update(PostRequestDto requestDto) {
         this.username = requestDto.getUsername();
+        this.title = requestDto.getTitle();
         this.contents = requestDto.getContents();
     }
 }
