@@ -1,7 +1,7 @@
 package com.sparta.homework.service;
 
-import com.sparta.homework.model.Post;
-import com.sparta.homework.model.User;
+import com.sparta.homework.domain.Post;
+import com.sparta.homework.domain.User;
 import com.sparta.homework.repository.PostRepository;
 import com.sparta.homework.Dto.PostRequestDto;
 import com.sparta.homework.repository.UserRepository;

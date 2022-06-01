@@ -1,6 +1,6 @@
 package com.sparta.homework.security;
 
-import com.sparta.homework.model.User;
+import com.sparta.homework.domain.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 

@@ -1,4 +1,4 @@
-package com.sparta.homework.model;
+package com.sparta.homework.domain;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,7 +16,6 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     private Long id;
-
     // nullable: null 허용 여부
     // unique: 중복 허용 여부 (false 일때 중복 허용)
     @Column(nullable = false, unique = true)
@@ -25,13 +24,9 @@ public class User {
     @Column(nullable = false)
     private String password;
 
-    @Column(nullable = false, unique = true)
-    private String email;
 
-    public User(String username, String password, String email) {
+    public User(String username, String password) {
         this.username = username;
         this.password = password;
-        this.email = email;
-
     }
 }
