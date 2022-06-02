@@ -6,6 +6,7 @@ import com.sparta.homework.security.jwt.HeaderTokenExtractor;
 import com.sparta.homework.security.provider.FormLoginAuthProvider;
 import com.sparta.homework.security.provider.JWTAuthProvider;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -22,6 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Configuration
+@ComponentScan
 @EnableWebSecurity // 스프링 Security 지원을 가능하게 함
 @EnableGlobalMethodSecurity(securedEnabled = true) // @Secured 어노테이션 활성화
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {

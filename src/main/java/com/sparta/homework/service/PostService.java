@@ -1,6 +1,6 @@
 package com.sparta.homework.service;
 
-import com.sparta.homework.domain.Post;
+import com.sparta.homework.domain.Posts;
 import com.sparta.homework.domain.User;
 import com.sparta.homework.repository.PostRepository;
 import com.sparta.homework.Dto.PostRequestDto;
@@ -21,7 +21,7 @@ public class PostService {
 
     @Transactional
     public Long update(Long id, PostRequestDto requestDto, UserDetailsImpl userDetails) {
-        Post post = postRepository.findById(id).orElseThrow(
+        Posts post = postRepository.findById(id).orElseThrow(
                 () -> new IllegalArgumentException("아이디가 존재하지 않습니다.")
         );
         if(Objects.equals(post.getUsername(), userDetails.getUsername())){
@@ -39,7 +39,7 @@ public class PostService {
         );
         if (user != null) {
             requestDto.setUsername(userDetails.getUsername());
-            Post post = new Post(requestDto);
+            Posts post = new Posts(requestDto);
             postRepository.save(post);
         }
     }

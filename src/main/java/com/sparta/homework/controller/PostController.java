@@ -1,7 +1,7 @@
 package com.sparta.homework.controller;
 
 import com.sparta.homework.Dto.PostRequestDto;
-import com.sparta.homework.domain.Post;
+import com.sparta.homework.domain.Posts;
 import com.sparta.homework.repository.PostRepository;
 import com.sparta.homework.security.UserDetailsImpl;
 import com.sparta.homework.service.PostService;
@@ -41,7 +41,7 @@ public class PostController {
 
     @GetMapping("/api/posts")
     @ResponseBody
-    public List<Post> getPosts() {
+    public List<Posts> getPosts() {
         return postRepository.findAllByOrderByModifiedAtDesc();
     }
 
@@ -57,7 +57,7 @@ public class PostController {
     @DeleteMapping("/api/posts/{id}")
     @ResponseBody
     public Long deleteMemo(@PathVariable Long id, @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        Post post = postRepository.findById(id).orElseThrow(
+        Posts post = postRepository.findById(id).orElseThrow(
                 () -> new NullPointerException("게시글이 존재하지 않습니다.")
         );
         if(!Objects.equals(post.getUsername(), userDetails.getUsername())){
@@ -72,7 +72,7 @@ public class PostController {
     @GetMapping("/api/detail/{id}")
     public String detailPost(Model model, @PathVariable Long id) {
 
-        Post post = postRepository.findById(id).orElseThrow(
+        Posts post = postRepository.findById(id).orElseThrow(
                 () -> new NullPointerException("게시글이 존재 하지 않습니다.")
         );
 
