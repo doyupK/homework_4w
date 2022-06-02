@@ -2,4 +2,4 @@
 
 Spring Boot/JPA
 <br>
-CRUD구현
+CRUD, Security-jwt
