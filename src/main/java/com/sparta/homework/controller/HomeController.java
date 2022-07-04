@@ -23,7 +23,7 @@ public class HomeController {
 
     @GetMapping("/")
     public String home(Model model, @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        // 55555
+        // 555554444
         if (userDetails != null) {
             model.addAttribute("username", userDetails.getUsername());
         }
